@@ -1,0 +1,48 @@
+/* Prehliadka na celú výšku okna */
+.app-tour {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh; /* mobil: počíta s lištou prehliadača */
+  overflow: hidden;
+}
+
+/* Tlačidlá nad prehliadkou (vpravo hore — mimo lišty PSV aj pôdorysu) */
+.app-topbar {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 60;
+  display: flex;
+  gap: 8px;
+}
+.app-pill {
+  font-size: 12px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  padding: 7px 12px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: inherit;
+  backdrop-filter: blur(4px);
+}
+.app-pill:hover { background: rgba(0, 0, 0, 0.8); }
+
+/* Plávajúce tlačidlo na zapnutie/vypnutie editora landingu (len dev / edit) */
+.app-fab {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 60;
+  font-size: 12px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 9px 14px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: inherit;
+  backdrop-filter: blur(4px);
+}
+.app-fab:hover { background: rgba(0, 0, 0, 0.85); }

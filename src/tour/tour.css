@@ -1,0 +1,417 @@
+/* Prehliadka vyplní rodičovský kontajner (ten musí mať výšku). */
+.ilumi-tour {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #111;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.ilumi-tour__viewer {
+  position: absolute;
+  inset: 0;
+}
+
+/* --- chybový stav --- */
+.ilumi-tour--error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #eee;
+  text-align: center;
+  padding: 2rem;
+}
+.ilumi-tour__hint { color: #aaa; font-size: 0.9rem; }
+.ilumi-tour code {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+}
+
+/* --- Pôdorys --- */
+.ilumi-plan { z-index: 20; }
+
+/* panel: defaultne (normal) vpravo dole */
+.ilumi-plan__panel {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: min(300px, 42vw);
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  transition: width 0.2s ease;
+}
+
+/* lišta s názvom a ovládaním */
+.ilumi-plan__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 4px 6px;
+  color: #ddd;
+}
+.ilumi-plan__bar-title { font-size: 12px; letter-spacing: 0.04em; }
+.ilumi-plan__bar-btns { display: flex; gap: 4px; }
+.ilumi-plan__bar-btns button {
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+.ilumi-plan__bar-btns button:hover { background: rgba(255, 255, 255, 0.22); }
+
+.ilumi-plan__img {
+  position: relative;
+  line-height: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.ilumi-plan.is-edit .ilumi-plan__img { cursor: crosshair; }
+.ilumi-plan__img img {
+  width: 100%;
+  height: auto;
+  display: block;
+  user-select: none;
+}
+
+/* zväčšený režim: vystredený panel + tmavé pozadie */
+.ilumi-plan__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.55);
+}
+.ilumi-plan.is-expanded .ilumi-plan__panel {
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(720px, 92vw);
+  max-height: 90%;
+  overflow: auto;
+  z-index: 2;
+}
+
+/* skrytý režim: tlačidlo na znovuotvorenie */
+.ilumi-plan__reopen {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 20px;
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+.ilumi-plan__reopen:hover { background: rgba(40, 40, 40, 0.9); }
+.ilumi-plan__reopen-ico { font-size: 15px; }
+
+/* body miestností */
+.ilumi-plan__dot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #d8d2c4;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.ilumi-plan__dot:hover { transform: translate(-50%, -50%) scale(1.25); }
+.ilumi-plan__dot.is-active {
+  background: #c8742f;
+  box-shadow: 0 0 0 4px rgba(200, 116, 47, 0.35);
+}
+.ilumi-plan__dot-label {
+  position: absolute;
+  left: 50%;
+  bottom: 130%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 12px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.ilumi-plan__dot:hover .ilumi-plan__dot-label,
+.ilumi-plan__dot.is-active .ilumi-plan__dot-label { opacity: 1; }
+.ilumi-plan__hint {
+  margin: 6px 2px 2px;
+  font-size: 11px;
+  color: #f0c89a;
+}
+
+/* --- Mobile: väčší pôdorys a väčšie body (touch) --- */
+@media (max-width: 640px) {
+  .ilumi-plan__panel { width: min(76vw, 360px); }
+  .ilumi-plan.is-expanded .ilumi-plan__panel { width: 94vw; }
+  .ilumi-plan__dot { width: 24px; height: 24px; border-width: 3px; }
+  .ilumi-plan__dot-label { font-size: 13px; }
+  .ilumi-plan__bar-btns button { width: 32px; height: 32px; font-size: 16px; }
+}
+
+/* --- EDIT panel (vľavo) --- */
+.ilumi-editor {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  bottom: 16px;
+  z-index: 30;
+  width: 300px;
+  overflow-y: auto;
+  background: rgba(20, 20, 20, 0.88);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 14px;
+  color: #eee;
+  font-size: 13px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+.ilumi-editor__title {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #f0a04b;
+  margin-bottom: 10px;
+}
+.ilumi-editor__sec { border-top: 1px solid rgba(255, 255, 255, 0.12); padding: 10px 0; }
+.ilumi-editor__sec h4 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; color: #bbb; }
+.ilumi-editor__row { display: flex; flex-wrap: wrap; gap: 6px; }
+.ilumi-editor input,
+.ilumi-editor select {
+  flex: 1 1 100%;
+  min-width: 0;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 13px;
+}
+.ilumi-editor button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  background: #c8742f;
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+}
+.ilumi-editor button:disabled { opacity: 0.4; cursor: not-allowed; }
+.ilumi-editor button.ilumi-editor__link {
+  background: none;
+  color: #f0a04b;
+  text-decoration: underline;
+  padding: 0;
+  font-size: 11px;
+}
+.ilumi-editor__export { width: 100%; background: #2f8a4b; margin-bottom: 6px; }
+.ilumi-editor ul { list-style: none; margin: 8px 0 0; padding: 0; }
+.ilumi-editor__nodes li,
+.ilumi-editor__links li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 0;
+}
+.ilumi-editor__nodes li.is-current .ilumi-editor__nodename { color: #f0a04b; font-weight: 600; }
+.ilumi-editor__nodename { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ilumi-editor__nodeactions { display: flex; align-items: center; gap: 8px; flex: none; }
+.ilumi-editor__nodes em { color: #2f8a4b; font-style: normal; font-size: 11px; }
+.ilumi-editor__del {
+  background: rgba(255, 80, 80, 0.18) !important;
+  color: #ff8a8a;
+  padding: 1px 7px !important;
+  line-height: 1.4;
+}
+.ilumi-editor__del:hover:not(:disabled) { background: rgba(255, 80, 80, 0.4) !important; }
+.ilumi-editor__links button {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 7px;
+}
+.ilumi-editor__empty { color: #777; }
+.ilumi-editor__note { color: #999; font-size: 11px; margin: 6px 0 0; }
+.ilumi-editor__placing {
+  background: rgba(240, 160, 75, 0.18);
+  border: 1px solid rgba(240, 160, 75, 0.5);
+  border-radius: 6px;
+  padding: 8px;
+  line-height: 1.4;
+}
+.ilumi-editor__placing button { margin-top: 6px; background: rgba(255, 255, 255, 0.15); }
+
+/* checkbox riadok */
+.ilumi-editor__check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.ilumi-editor__check input { flex: none; width: auto; }
+
+/* textarea komentára */
+.ilumi-editor__textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  resize: vertical;
+}
+
+/* zoznam svetelných režimov v editore */
+.ilumi-editor__variant-preview { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.ilumi-editor__variant-preview button {
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+}
+.ilumi-editor__variant-preview button.is-active { background: #c8742f; }
+.ilumi-editor__variants { margin: 0 0 8px; }
+.ilumi-editor__variants li {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 4px 0;
+}
+.ilumi-editor__vlabel { flex: 1 1 auto !important; }
+.ilumi-editor__vsuffix { flex: 0 0 90px !important; }
+
+/* ── Prepínač svetelných režimov vo VIEW (hore v strede) ── */
+.ilumi-variants {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  background: rgba(20, 20, 20, 0.7);
+  backdrop-filter: blur(6px);
+  border-radius: 24px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+.ilumi-variants__btn {
+  border: none;
+  background: transparent;
+  color: #ddd;
+  font-size: 13px;
+  padding: 7px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.ilumi-variants__btn:hover { color: #fff; }
+.ilumi-variants__btn.is-active { background: #fff; color: #1a1a1a; font-weight: 600; }
+
+/* ── Komentár (dole v strede) ── */
+.ilumi-comment {
+  position: absolute;
+  bottom: 58px; /* nad lištou PSV */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  width: min(520px, 92vw);
+  background: rgba(20, 20, 20, 0.82);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #f2f2f2;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+.ilumi-comment__close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+}
+.ilumi-comment__close:hover { background: rgba(255, 255, 255, 0.25); }
+.ilumi-comment__text {
+  margin: 0 24px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.ilumi-comment__audio {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  height: 34px;
+}
+.ilumi-comment__reopen {
+  position: absolute;
+  bottom: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  border: none;
+  border-radius: 20px;
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 13px;
+  padding: 8px 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+.ilumi-comment__reopen:hover { background: rgba(40, 40, 40, 0.9); }
+
+/* tlačidlo na opätovné zapnutie komentárov (keď sú vypnuté) */
+.ilumi-comment__enable {
+  position: absolute;
+  bottom: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  border: none;
+  border-radius: 20px;
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 13px;
+  padding: 8px 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+.ilumi-comment__enable:hover { background: rgba(40, 40, 40, 0.9); }
+
+@media (max-width: 640px) {
+  .ilumi-variants__btn { padding: 7px 11px; font-size: 12px; }
+  .ilumi-comment { bottom: 64px; }
+}
