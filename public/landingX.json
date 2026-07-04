@@ -1,0 +1,50 @@
+{
+  "landingEnabled": true,
+  "defaultTourSrc": "tours/demo/tour.json",
+  "mainSiteUrl": "https://google.com",
+  "brand": {
+    "name": "Ilumi Interior",
+    "logo": "ilumi_logo.png"
+  },
+  "background": {
+    "type": "color",
+    "color": "#000000",
+    "image": ""
+  },
+  "theme": {
+    "headerBg": "#000000",
+    "accent": "#d8a566",
+    "cardBg": "#ffffff",
+    "cardText": "#173a5e",
+    "textColor": "#1d2733"
+  },
+  "logoHeight": 120,
+  "font": "'Cormorant Garamond', Georgia, serif",
+  "hero": {
+    "textAbove": "",
+    "textBelow": "",
+    "buttonLabel": "",
+    "buttonTourSrc": ""
+  },
+  "sectionTitle": "360° Prehliadka",
+  "carousel": [
+    {
+      "image": "c_1.png",
+      "caption": "Obývačka"
+    },
+    {
+      "image": "c_2",
+      "caption": "Obývačka",
+      "tourSrc": "C:\\Q\\PRACA\\ILUMI INTERIOR\\AI\\360_WEB"
+    }
+  ],
+  "apartments": [
+    {
+      "id": "byt-3",
+      "title": "Byt 3",
+      "meta": "4-izbový · 102 m²",
+      "image": "landing/byt-3.jpg",
+      "tourSrc": "tours/demo/tour.json"
+    }
+  ]
+}

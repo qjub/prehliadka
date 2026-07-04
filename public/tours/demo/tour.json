@@ -1,0 +1,278 @@
+{
+  "name": "Vzorový byt",
+  "startNodeId": "predsien",
+  "variants": [
+    {
+      "id": "den",
+      "label": "Deň",
+      "suffix": ""
+    },
+    {
+      "id": "svetla",
+      "label": "Deň + svetlá",
+      "suffix": "_svetla"
+    },
+    {
+      "id": "noc",
+      "label": "Noc",
+      "suffix": "_noc"
+    }
+  ],
+  "defaultVariant": "den",
+  "floorplan": {
+    "image": "podorys.png",
+    "rooms": [
+      {
+        "nodeId": "predsien",
+        "x": 0.8545,
+        "y": 0.2463,
+        "label": "Predsieň"
+      },
+      {
+        "nodeId": "chodba",
+        "x": 0.7986,
+        "y": 0.5286,
+        "label": "Chodba"
+      },
+      {
+        "nodeId": "ostrovcek",
+        "x": 0.6042,
+        "y": 0.5737,
+        "label": "Ostrovček"
+      },
+      {
+        "nodeId": "linka",
+        "x": 0.5694,
+        "y": 0.8041,
+        "label": "Linka"
+      },
+      {
+        "nodeId": "jedalensky-stol",
+        "x": 0.3819,
+        "y": 0.5687,
+        "label": "Jedálenský stôl"
+      },
+      {
+        "nodeId": "kniznica",
+        "x": 0.4688,
+        "y": 0.2031,
+        "label": "Knižnica"
+      },
+      {
+        "nodeId": "obyvacka",
+        "x": 0.1354,
+        "y": 0.183,
+        "label": "Obývačka"
+      },
+      {
+        "nodeId": "koniec-stolu",
+        "x": 0.1111,
+        "y": 0.8291,
+        "label": "Koniec stolu"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "chodba",
+      "name": "Chodba",
+      "panorama": "chodba.png",
+      "comment": {
+        "enabled": true,
+        "mode": "audio",
+        "audio": "C_2.mp3"
+      },
+      "links": [
+        {
+          "nodeId": "predsien",
+          "yaw": 4.6053,
+          "pitch": -0.3891
+        },
+        {
+          "nodeId": "ostrovcek",
+          "yaw": 2.9841,
+          "pitch": -0.482
+        }
+      ]
+    },
+    {
+      "id": "predsien",
+      "name": "Predsieň",
+      "panorama": "predsieň.png",
+      "comment": {
+        "enabled": true,
+        "mode": "audio",
+        "audio": "C_1.mp3"
+      },
+      "links": [
+        {
+          "nodeId": "chodba",
+          "yaw": 1.6683,
+          "pitch": -0.3042
+        }
+      ]
+    },
+    {
+      "id": "ostrovcek",
+      "name": "Ostrovček",
+      "panorama": "ostrovcek.png",
+      "comment": {
+        "enabled": true,
+        "mode": "audio",
+        "audio": "C_3.mp3"
+      },
+      "links": [
+        {
+          "nodeId": "chodba",
+          "yaw": 6.2728,
+          "pitch": -0.507
+        },
+        {
+          "nodeId": "jedalensky-stol",
+          "yaw": 3.0253,
+          "pitch": -0.5689
+        },
+        {
+          "nodeId": "linka",
+          "yaw": 1.2814,
+          "pitch": -0.4387
+        }
+      ]
+    },
+    {
+      "id": "jedalensky-stol",
+      "name": "Jedálenský stôl",
+      "panorama": "stol.png",
+      "comment": {
+        "enabled": true,
+        "mode": "audio",
+        "audio": "C_6.mp3"
+      },
+      "links": [
+        {
+          "nodeId": "obyvacka",
+          "yaw": 3.7187,
+          "pitch": -0.3862
+        },
+        {
+          "nodeId": "koniec-stolu",
+          "yaw": 2.4005,
+          "pitch": -0.5527
+        },
+        {
+          "nodeId": "chodba",
+          "yaw": 0.0089,
+          "pitch": -0.541
+        },
+        {
+          "nodeId": "kniznica",
+          "yaw": 5.0004,
+          "pitch": -0.5358
+        },
+        {
+          "nodeId": "linka",
+          "yaw": 0.7398,
+          "pitch": -0.599
+        }
+      ]
+    },
+    {
+      "id": "obyvacka",
+      "name": "Obývačka",
+      "panorama": "obyvacka.png",
+      "comment": {
+        "enabled": true,
+        "mode": "audio",
+        "audio": "C_7.mp3"
+      },
+      "links": [
+        {
+          "nodeId": "jedalensky-stol",
+          "yaw": 0.842,
+          "pitch": -0.407
+        },
+        {
+          "nodeId": "koniec-stolu",
+          "yaw": 1.8831,
+          "pitch": -0.5421
+        },
+        {
+          "nodeId": "kniznica",
+          "yaw": 6.0498,
+          "pitch": -0.488
+        }
+      ]
+    },
+    {
+      "id": "koniec-stolu",
+      "name": "Koniec stolu",
+      "panorama": "zelena_zona.png",
+      "comment": {
+        "enabled": true,
+        "mode": "audio",
+        "audio": "C_8.mp3"
+      },
+      "links": [
+        {
+          "nodeId": "jedalensky-stol",
+          "yaw": 5.5218,
+          "pitch": -0.4383
+        }
+      ]
+    },
+    {
+      "id": "linka",
+      "name": "Linka",
+      "panorama": "linka.png",
+      "comment": {
+        "enabled": true,
+        "mode": "audio",
+        "audio": "C_4.mp3"
+      },
+      "links": [
+        {
+          "nodeId": "chodba",
+          "yaw": 5.6271,
+          "pitch": -0.3701
+        },
+        {
+          "nodeId": "ostrovcek",
+          "yaw": 4.3765,
+          "pitch": -0.5264
+        },
+        {
+          "nodeId": "jedalensky-stol",
+          "yaw": 3.4355,
+          "pitch": -0.3215
+        }
+      ]
+    },
+    {
+      "id": "kniznica",
+      "name": "Knižnica",
+      "panorama": "kniznica.png",
+      "comment": {
+        "enabled": true,
+        "mode": "audio",
+        "audio": "C_5.mp3"
+      },
+      "links": [
+        {
+          "nodeId": "obyvacka",
+          "yaw": 3.2826,
+          "pitch": -0.4702
+        },
+        {
+          "nodeId": "jedalensky-stol",
+          "yaw": 2.0698,
+          "pitch": -0.689
+        },
+        {
+          "nodeId": "ostrovcek",
+          "yaw": 1.411,
+          "pitch": -0.6235
+        }
+      ]
+    }
+  ]
+}
