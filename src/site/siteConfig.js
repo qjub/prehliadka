@@ -19,10 +19,10 @@ export const siteConfig = {
   defaultTourSrc: 'tours/demo/tour.json',
 
   // Odkaz „späť na hlavnú stránku" (prázdne/null = tlačidlo sa nezobrazí):
-  mainSiteUrl: 'https://hodzova.sk/',
+  mainSiteUrl: 'https://google.sk/',
 
   brand: {
-    name: 'Rezidencia Hodžova',
+    name: '360° Prehliadka',
     logo: 'landing/logo.svg', // negatív (biele) logo do tmavej hlavičky
   },
 
@@ -48,8 +48,8 @@ export const siteConfig = {
 
   // Hero: text nad sliderom, pod sliderom a tlačidlo na spustenie prehliadky.
   hero: {
-    textAbove: 'Rezidencia Hodžova',
-    textBelow: 'Prezrite si byt v interaktívnej 360° prehliadke.',
+    textAbove: '',
+    textBelow: '',
     buttonLabel: '360° Prehliadka',
     buttonTourSrc: 'tours/demo/tour.json',
   },
@@ -58,7 +58,7 @@ export const siteConfig = {
   carousel: [],
 
   // Nadpis sekcie s kartami:
-  sectionTitle: 'Prehliadka bytov',
+  sectionTitle: '',
 
   // Karty bytov. `tourSrc` = prehliadka, ktorá sa otvorí po kliknutí.
   // Ak je `tourSrc: null`, karta sa zobrazí ako „Pripravujeme" (neklikateľná).
